@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class MemeEditorViewController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var cameraButton: UIBarButtonItem!
@@ -79,6 +79,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIImagePickerContro
         topTextField.text = topText
         bottomTextField.text = bottomText
         enableShareButton()
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     
@@ -93,11 +94,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIImagePickerContro
         activityViewController.completionWithItemsHandler = {
             (text: String?, completed: Bool, activityItems: [AnyObject]?, err:NSError?) -> Void in
             if completed {
-                self.meme = Meme(
-                    topText: self.topTextField.text!,
-                    bottomText: self.bottomTextField.text!,
-                    originalImage: self.imageView.image!,
-                    memedImage: self.memedImage)
+                self.save()
                 self.dismissViewControllerAnimated(true, completion: nil)
             }
         }
@@ -200,7 +197,9 @@ class ViewController: UIViewController, UITextFieldDelegate, UIImagePickerContro
         return true
     }
     
-
+    /**
+     Clear the text for typing
+     */
     func textFieldDidBeginEditing(textField: UITextField) {
         let compareText = topTextField.isFirstResponder() ? topText: bottomText
         
@@ -269,7 +268,9 @@ class ViewController: UIViewController, UITextFieldDelegate, UIImagePickerContro
     }
     
 
-    
+    /**
+     Create memed image
+     */
     func generateMemedImage() -> UIImage {
         toolbar.hidden = true
         navigationBar.hidden = true
@@ -286,6 +287,23 @@ class ViewController: UIViewController, UITextFieldDelegate, UIImagePickerContro
         navigationBar.hidden = false
         
         return memedImage
+    }
+    
+    
+    /**
+     Save the meme and an add to the App Delegate memes array
+     */
+    func save() {
+        let meme = Meme(
+            topText: topTextField.text!,
+            bottomText: bottomTextField.text!,
+            originalImage: imageView.image!,
+            memedImage: memedImage)
+        
+        // Add it to the memes array in the Application Delegate
+        let object = UIApplication.sharedApplication().delegate
+        let appDelegate = object as! AppDelegate
+        appDelegate.memes.append(meme)
     }
 }
 

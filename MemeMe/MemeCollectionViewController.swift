@@ -47,7 +47,7 @@ class MemeCollectionViewController: UICollectionViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         collectionView!.reloadData()
-        self.tabBarController?.tabBar.hidden = false
+        tabBarController?.tabBar.hidden = false
     }
     
     // MARK: Collection View Data Source
@@ -80,9 +80,9 @@ class MemeCollectionViewController: UICollectionViewController {
      Selected a cell, show detail view
      */
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath:NSIndexPath) {
-        let detailMemeController = self.storyboard!.instantiateViewControllerWithIdentifier("MemeDetailViewController") as! MemeDetailViewController
+        let detailMemeController = storyboard!.instantiateViewControllerWithIdentifier("MemeDetailViewController") as! MemeDetailViewController
         detailMemeController.meme = memes[indexPath.row]
-        self.navigationController!.pushViewController(detailMemeController, animated: true)
+        navigationController!.pushViewController(detailMemeController, animated: true)
     }
     
 }

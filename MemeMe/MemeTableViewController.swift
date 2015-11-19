@@ -67,9 +67,9 @@ class MemeTableViewController: UITableViewController {
      Selected a cell, show detail view
      */
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let detailMemeController = self.storyboard!.instantiateViewControllerWithIdentifier("MemeDetailViewController") as! MemeDetailViewController
+        let detailMemeController = storyboard!.instantiateViewControllerWithIdentifier("MemeDetailViewController") as! MemeDetailViewController
         detailMemeController.meme = memes[indexPath.row]
-        self.navigationController!.pushViewController(detailMemeController, animated: true)
+        navigationController!.pushViewController(detailMemeController, animated: true)
     }
     
     
